@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  frontend:
+    image: egemensener/web-tetrado
+    ports:
+      - "8080:80"
+
+  backend:
+    image: danielgtaylor/apisprout
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./work:/work
+    command: /work/openapi.json

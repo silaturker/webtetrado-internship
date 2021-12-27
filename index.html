@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- For bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Pacifico" />
+</head>
+<header>
+
+    <div class="container-md"
+        style="position: fixed;z-index: 10000;top: 0;width: 100%; height: 50px; background-color: #080956; border-bottom:2px solid  #16A085; overflow: hidden;">
+
+
+
+        <a class="navbar-brand"
+            style="color: azure; font-family: 'Pacifico';font-size: xx-large;margin-bottom: 5px;margin-left: 8%;">WebTetrado</a>
+
+
+
+
+    </div><!-- /.container -->
+
+</header>
+
+<body style="margin-bottom: 60px;">
+    <div class="row"
+        style="color:#666;position: relative;margin-left: 8%; margin-top: 70px; min-width: 240px;font-size: 14px;width: 92%;">
+        <div class="col-6">
+            <div class="borderPanel">
+                <div class="head" style="width: 100%;">
+                    <p>Upload structure in PDB or PDBx/mmCIF format</p>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                    <input type="text" id="textt" />
+                    <input name=Frm2 type="file" id="logo">
+
+                </div>
+                <button type="button"
+                    style="margin-top:20px;margin-bottom: 1px; height:30px;width:80px;background-color: #008cba;padding: 0px; position: relative;color: white;"
+                    class="btn btn-primary">Settings</button>
+                <div class="checkboxesRadioButtons"
+                    style="position: relative; border: 2px solid #062bbe;font-weight: bold;width: 70%;padding:3px;line-height: 200%;">
+                    <div>
+                        <input type="checkbox" id="myCheck1" onclick="strictCheck()">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Enable strict mode
+                        </label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="myCheck2" onclick="noReorderCheck()">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Disable chain ordering
+                        </label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="myCheck3" onclick="complete2dCheck()">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Draw complete 2D structure
+                        </label>
+                    </div>
+                    <p style="font-weight: normal; margin-bottom: 4%;">Set stacking mismatch: </p>
+                    <div>
+                        <input type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                            onclick="stackingMismatchCheck()">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            1
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                            onclick="stackingMismatchCheck()" Checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            2
+                        </label>
+                    </div>
+
+                </div>
+                <div>
+                    <button type="button"
+                        style="margin-top:10px; height:30px;width:50px;background-color:#f0ad4e;color:white;padding: 0px;"
+                        onclick="getResponse()" class="btn btn-warning">Run</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="resultsPanel"
+        style="color:#666;position: relative;margin-left: 8%; margin-top: 70px; min-width: 240px;font-size: 14px;margin-right: 7%;max-width: 92%;visibility: hidden;">
+        <h3 class="display-3 text-center">RESULTS</h3>
+        <table class="table table-dark text-center table-striped" id="basePairs">
+            <h1 style="text-align: center;">basePairs</h1>
+            <tr>
+                <th>edge3</th>
+                <th>edge5</th>
+                <th>nt1</th>
+                <th>nt2</th>
+                <th>stericity</th>
+            </tr>
+
+        </table>
+        <table class="table table-dark text-center table-striped" id="helicesQuadruplexes">
+            <h1 style="text-align: center;">helicesQuadruplexes</h1>
+            <tr>
+                <th>gbaClassification</th>
+                <th>loopClassification</th>
+                <th>loops</th>
+                <th>onzm</th>
+                <th>tetrads</th>
+                <th>tracts</th>
+            </tr>
+        </table>
+        <table class="table table-dark text-center table-striped" id="hQLoopsElements">
+            <h1 style="text-align: center;">helicesQuadruplexesLoopsElements</h1>
+            <tr>
+                <th>type</th>
+                <th>nucleotides</th>
+            
+            </tr>
+        </table>
+        <table class="table table-dark text-center table-striped" id="hQtetradsElements">
+            <h1 style="text-align: center;">helicesQuadruplexesTetradsElements</h1>
+            <tr>
+                <th>id</th>
+                <th>nt1</th>
+                <th>nt2</th>
+                <th>nt3</th>
+                <th>nt4</th>
+                <th>onz</th>
+                <th>gbaClassification</th>
+                <th>planarityDeviation</th>
+                <th>ionsChannel</th>
+                <th>ionsOutside</th>
+            </tr>
+        </table>
+        <table class="table table-dark text-center table-striped" id="hQTractsElements">
+            <h1 style="text-align: center;">helicesQuadruplexesTractsElements</h1>
+            <tr>
+                <th>elements</th>
+                
+            
+            </tr>
+        </table>
+        <table class="table table-dark text-center table-striped" id="helicesTetradPairs">
+            <h1 style="text-align: center;">helicesTetradPairs</h1>
+            <tr>
+                <th>tetrad1</th>
+                <th>tetrad2</th>
+                <th>direction</th>
+                <th>rise</th>
+                <th>twist</th>
+            </tr>
+        </table>
+        <table class="table table-dark text-center table-striped" id="metals">
+            <h1 style="text-align: center;">metals</h1>
+            <tr>
+                <th>symbol</th>
+                <th>count</th>
+            </tr>
+        </table>
+        <table class="table table-dark text-center table-striped" id="nucleotides">
+            <h1 style="text-align: center;">nucleotides</h1>
+            <tr>
+                <th>index</th>
+                <th>model</th>
+                <th>chain</th>
+                <th>number</th>
+                <th>icode</th>
+                <th>molecule</th>
+                <th>fullName</th>
+                <th>shortName</th>
+                <th>chi</th>
+                <th>glycosidicBond</th>
+            </tr>
+        </table>
+
+
+    </div>
+    <!-- For bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- Script file -->
+    <script src="script.js"></script>
+    <!-- <script src="deneme.js"></script> -->
+</body>
+<div class="footer-after"
+    style="background: #2c3e50;padding: 20px 0; font-size: 12px; position:fixed;bottom:0;width:100%;height:60px;text-align:center;">
+
+    <div class="container">
+
+        <div class="row">
+            <p class="col-md-12" style="color: white; text-align: center;">©2021 All rights reserved.</p>
+
+        </div><!-- /.row -->
+    </div>
+</div>
+
+</html>
